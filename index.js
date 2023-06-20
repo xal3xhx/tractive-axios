@@ -4,10 +4,11 @@ const tAccount = require('./src/account');
 const tPet = require('./src/pet');
 const tTracker = require('./src/tracker');
 const tCommands = require('./src/commands');
+const debugMode = false; // Set this flag to true for debug logging
+
 accountDetails = {
     email: "",
     password: ""
-}
 gloOpts = {
     method: "GET",
     url: "https://graph.tractive.com",
@@ -21,6 +22,13 @@ gloOpts = {
 isAuthenticated = function () {
     if (accountDetails?.token) return true;
     return false;
+};
+
+
+logError = function (error) {
+    if (debugMode) {
+        console.error(error.message);
+    }
 }
 
 async function authenticate() {
@@ -68,7 +76,7 @@ async function getTrackerGeofences(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error);
+        await logError(error);
     }
 }
 
@@ -79,7 +87,7 @@ async function getGeofence(fenceID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error);
+        await logError(error);
     }
 }
 
@@ -103,4 +111,4 @@ module.exports = {
     LEDOff: tCommands.LEDOff,
     buzzerOn: tCommands.BuzzerOn,
     buzzerOff: tCommands.BuzzerOff
-}
+};

@@ -8,7 +8,7 @@ async function getAccountInfo() {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -19,7 +19,7 @@ async function getAccountSubscriptions() {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -30,7 +30,7 @@ async function getAccountSubscription(subscriptionID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -41,7 +41,7 @@ async function getAccountShares() {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 

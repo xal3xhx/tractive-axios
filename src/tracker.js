@@ -8,7 +8,7 @@ async function getAllTrackers() {
         const res = await axios(options);
         console.log(res.data);
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -19,9 +19,7 @@ async function getTracker(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.log(options)
-        console.log(res.data)
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -34,7 +32,7 @@ async function getTrackerHistory(trackerID, from, to) {
         const res = await axios(options);
         return res.data[0];
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -51,11 +49,11 @@ async function getTrackerLocation(trackerID) {
             data.address = address;
             return data;
         } catch (error) {
-            console.error(error.message);
+            await logError(error);
             return data;
         }
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -66,7 +64,7 @@ async function getTrackerHardware(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 

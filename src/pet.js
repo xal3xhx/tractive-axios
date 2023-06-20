@@ -11,7 +11,7 @@ async function getPet(petID) {
         parsedData.details.cover_picture_link = `https://graph.tractive.com/4/media/resource/${parsedData.details.cover_picture_id}.jpg`;
         return parsedData;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -22,7 +22,7 @@ async function getPets() {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 

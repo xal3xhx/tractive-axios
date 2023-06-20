@@ -8,7 +8,7 @@ async function liveOn(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -19,7 +19,7 @@ async function liveOff(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -30,7 +30,7 @@ async function LEDOn(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -41,7 +41,7 @@ async function LEDOff(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -52,7 +52,7 @@ async function BuzzerOn(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
@@ -63,7 +63,7 @@ async function BuzzerOff(trackerID) {
         const res = await axios(options);
         return res.data;
     } catch (error) {
-        console.error(error.message);
+        await logError(error);
     }
 }
 
