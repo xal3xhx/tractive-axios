@@ -1,111 +1,49 @@
-const https = require("https");
+const axios = require('axios');
 const TractiveClient = "625e533dc3c3b41c28a669f0";
 
-/**
- * Gets Tractive account information.
- * @returns {Object} Object
- */
 async function getAccountInfo() {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/user/${accountDetails.uid}`;
-        const req = https.request(options, function (res) {
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => { rawData += chunk; });
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(rawData);
-                    resolve(parsedData);
-                } catch (e) {
-                    console.error(e.message);
-                }
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/user/${accountDetails.uid}` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
-/**
- * Get all account subscriptions
- * @returns {Array} Array
- */
 async function getAccountSubscriptions() {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/user/${accountDetails.uid}/subscriptions`;
-        const req = https.request(options, function (res) {
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => { rawData += chunk; });
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(rawData);
-                    resolve(parsedData);
-                } catch (e) {
-                    console.error(e.message);
-                }
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/user/${accountDetails.uid}/subscriptions` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
-/**
- * Get a subscription
- * @param {String} subscriptionID 
- * @returns {Object} Object
- */
 async function getAccountSubscription(subscriptionID) {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/subscription/${subscriptionID}`;
-        const req = https.request(options, function (res) {
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => { rawData += chunk; });
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(rawData);
-                    resolve(parsedData);
-                } catch (e) {
-                    console.error(e.message);
-                }
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/subscription/${subscriptionID}` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
-/**
- * Get a list of accounts you share trackers with
- * @returns {Array} Array
- */
 async function getAccountShares() {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/user/${accountDetails.uid}/shares`;
-        const req = https.request(options, function (res) {
-            res.setEncoding('utf8');
-            let rawData = '';
-            res.on('data', (chunk) => { rawData += chunk; });
-            res.on('end', () => {
-                try {
-                    const parsedData = JSON.parse(rawData);
-                    resolve(parsedData);
-                } catch (e) {
-                    console.error(e.message);
-                }
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/user/${accountDetails.uid}/shares` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error.message);
+    }
 }
-
 
 module.exports = {
     getAccountInfo: getAccountInfo,

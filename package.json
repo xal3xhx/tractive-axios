@@ -1,24 +1,19 @@
 {
-  "name": "tractive",
-  "version": "1.2.1",
-  "description": "A Tractive API wrapper, using tractive.com services.",
+  "name": "tractive-axios",
+  "version": "1.0.0",
+  "description": "a fork of FAXES Tractive API wrapper using axios",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FAXES/tractive.git"
+    "url": "git+https://github.com/xal3xhx/tractive-axios.git"
   },
-  "keywords": [
-    "tractive",
-    "tracking",
-    "GPS"
-  ],
-  "author": "Weblutions",
+  "author": "Mr Alex",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FAXES/tractive/issues"
+    "url": "https://github.com/xal3xhx/tractive-axios/issues"
   },
-  "homepage": "https://github.com/FAXES/tractive#readme"
+  "homepage": "https://github.com/xal3xhx/tractive-axios#readme"
 }

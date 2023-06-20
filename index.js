@@ -1,4 +1,4 @@
-const https = require("https");
+const axios = require('axios');
 const TractiveClient = "625e533dc3c3b41c28a669f0";
 const tAccount = require('./src/account');
 const tPet = require('./src/pet');
@@ -10,8 +10,7 @@ accountDetails = {
 }
 gloOpts = {
     method: "GET",
-    hostname: "graph.tractive.com",
-    path: ``,
+    url: "https://graph.tractive.com",
     headers: {
         "X-Tractive-Client": TractiveClient,
         "Authorization": `Bearer ${accountDetails.token}`,
@@ -19,46 +18,40 @@ gloOpts = {
     }
 };
 
-isAuthenticated = function() {
-    if(accountDetails?.token) return true;
+isAuthenticated = function () {
+    if (accountDetails?.token) return true;
     return false;
 }
 
 async function authenticate() {
-    return new Promise(function(resolve, reject) {/4/
+    return new Promise(async function (resolve, reject) {
         const options = {
-            "method": "POST",
-            "hostname": "graph.tractive.com",
-            "path": `/4/auth/token?grant_type=tractive&platform_email=${encodeURIComponent(accountDetails.email)}&platform_token=${encodeURIComponent(accountDetails.password)}`,
-            "headers": {
+            method: 'POST',
+            url: `https://graph.tractive.com/4/auth/token?grant_type=tractive&platform_email=${encodeURIComponent(accountDetails.email)}&platform_token=${encodeURIComponent(accountDetails.password)}`,
+            headers: {
                 'X-Tractive-Client': TractiveClient,
                 'Content-Type': "application/json"
             }
         };
-        const req = https.request(options, function (res) {
-            res.on('data', function(d) {
-                // process.stdout.write(d + '\n\n');
-                accountDetails.token = JSON.parse(d).access_token;
-                accountDetails.uid = JSON.parse(d).user_id;
-                gloOpts = {
-                    method: "GET",
-                    hostname: "graph.tractive.com",
-                    path: ``,
-                    headers: {
-                        "X-Tractive-Client": TractiveClient,
-                        "Authorization": `Bearer ${accountDetails.token}`,
-                        "content-type": "application/json"
-                    }
-                };
-                resolve(true);
-            });
-            res.on('error', function(err) {
-                resolve(false);
-            });
-        });
-        req.end();
+
+        try {
+            const res = await axios(options);
+            accountDetails.token = res.data.access_token;
+            accountDetails.uid = res.data.user_id;
+            gloOpts = {
+                method: "GET",
+                url: "https://graph.tractive.com",
+                headers: {
+                    "X-Tractive-Client": TractiveClient,
+                    "Authorization": `Bearer ${accountDetails.token}`,
+                    "content-type": "application/json"
+                }
+            };
+            resolve(true);
+        } catch (error) {
+            resolve(false);
+        }
     });
-    return promise;
 }
 
 async function connect(email, password) {
@@ -69,33 +62,25 @@ async function connect(email, password) {
 }
 
 async function getTrackerGeofences(trackerID) {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/tracker/${trackerID}/geofences`;
-        const req = https.request(options, function (res) {
-            res.on('data', function(d) {
-                let data = JSON.parse(d);
-                resolve(data)
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/tracker/${trackerID}/geofences` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 async function getGeofence(fenceID) {
-    if(!isAuthenticated()) return console.log('Not authenticated.');
-    return new Promise(function(resolve, reject) {
-        let options = gloOpts;
-        options.path = `/4/geofence/${fenceID}`;
-        const req = https.request(options, function (res) {
-            res.on('data', function(d) {
-                let data = JSON.parse(d);
-                resolve(data)
-            });
-        });
-        req.end();
-    });
+    if (!isAuthenticated()) return console.log('Not authenticated.');
+    let options = { ...gloOpts, url: gloOpts.url + `/4/geofence/${fenceID}` };
+    try {
+        const res = await axios(options);
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 module.exports = {
